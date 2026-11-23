@@ -20,12 +20,18 @@
   onScroll();
 
   function updateActiveNav() {
-    const y = window.scrollY + 100;
+    /* Línea de referencia: debajo del header sticky + el mismo margen que usa scroll-margin-top */
+    const y = window.scrollY + header.offsetHeight + 24 + 1;
     let active = null;
 
     sections.forEach(sec => {
-      if (y >= sec.offsetTop) active = sec.id;
+      if (y >= sec.getBoundingClientRect().top + window.scrollY) active = sec.id;
     });
+
+    /* Al llegar al final de la página, la última sección queda activa */
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+      active = sections[sections.length - 1].id;
+    }
 
     navLinks.forEach(link => {
       link.classList.toggle('active', link.getAttribute('href') === `#${active}`);
@@ -240,22 +246,22 @@
 
       /* Validación client-side */
       if (!nombre || nombre.length < 2) {
-        showStatus('Por favor ingresá tu nombre y apellido.', 'error');
+        showStatus('Por favor ingrese su nombre y apellido.', 'error');
         form.nombre.focus();
         return;
       }
       if (!email || !validateEmail(email)) {
-        showStatus('Por favor ingresá un correo electrónico válido.', 'error');
+        showStatus('Por favor ingrese un correo electrónico válido.', 'error');
         form.email.focus();
         return;
       }
       if (!area) {
-        showStatus('Por favor seleccioná un área de interés.', 'error');
+        showStatus('Por favor seleccione un área de interés.', 'error');
         form.area.focus();
         return;
       }
       if (!mensaje || mensaje.length < 10) {
-        showStatus('Por favor contanos un poco sobre tu proyecto (mínimo 10 caracteres).', 'error');
+        showStatus('Por favor cuéntenos un poco sobre su proyecto (mínimo 10 caracteres).', 'error');
         form.mensaje.focus();
         return;
       }
@@ -283,11 +289,11 @@
           showStatus('¡Consulta enviada con éxito! Nos comunicaremos pronto.', 'success');
           form.reset();
         } else {
-          showStatus(data.message || 'Hubo un problema al enviar. Intentá de nuevo.', 'error');
+          showStatus(data.message || 'Hubo un problema al enviar. Intente de nuevo.', 'error');
         }
 
       } catch {
-        showStatus('Error de conexión. Revisá tu internet e intentá de nuevo.', 'error');
+        showStatus('Error de conexión. Revise su conexión a internet e intente de nuevo.', 'error');
       } finally {
         submitBtn.disabled    = false;
         submitBtn.textContent = 'Enviar consulta';

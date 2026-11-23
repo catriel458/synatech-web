@@ -38,7 +38,7 @@ if ((time() - $_SESSION['ct_first']) > SESSION_WINDOW) {
 
 if ($_SESSION['ct_count'] >= MAX_PER_SESSION) {
     http_response_code(429);
-    echo json_encode(['ok' => false, 'message' => 'Demasiadas solicitudes. Por favor intentá de nuevo en una hora.']);
+    echo json_encode(['ok' => false, 'message' => 'Demasiadas solicitudes. Por favor intente de nuevo en una hora.']);
     exit;
 }
 
@@ -129,6 +129,6 @@ if ($enviado) {
     http_response_code(500);
     echo json_encode([
         'ok'      => false,
-        'message' => 'No se pudo enviar el mensaje. Por favor escribinos directamente a ' . DEST_EMAIL . '.'
+        'message' => 'No se pudo enviar el mensaje. Por favor escríbanos directamente a ' . DEST_EMAIL . '.'
     ]);
 }

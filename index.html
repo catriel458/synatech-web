@@ -71,6 +71,9 @@
 
 <body>
 
+  <!-- Textura de grano (overlay fijo, solo visual) -->
+  <div class="grain-overlay" aria-hidden="true" role="presentation"></div>
+
   <!-- ═══════════════════════════════════════════════════════
        HEADER
   ═══════════════════════════════════════════════════════ -->
@@ -78,7 +81,7 @@
     <div class="container header__inner">
 
       <a href="#inicio" class="header__logo" aria-label="SYNATECH SRL — Ir al inicio">
-        <img src="assets/img/logo/logo.png" alt="SYNATECH SRL" width="92" height="52">
+        <img src="assets/img/logo/logo.png" alt="SYNATECH SRL" width="99" height="56">
       </a>
 
       <nav class="header__nav" id="main-nav" aria-label="Navegación principal">
@@ -222,6 +225,16 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════════
+         MARQUEE
+    ═══════════════════════════════════════════════════════ -->
+    <div class="marquee" aria-hidden="true" role="presentation">
+      <div class="marquee__track">
+        <span class="marquee__text">TRANSFORMACIÓN DIGITAL&nbsp;&nbsp;·&nbsp;&nbsp;MIGRACIONES DE SISTEMAS&nbsp;&nbsp;·&nbsp;&nbsp;DESARROLLO A MEDIDA&nbsp;&nbsp;·&nbsp;&nbsp;CONSULTORÍA TÉCNICA&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+        <span class="marquee__text">TRANSFORMACIÓN DIGITAL&nbsp;&nbsp;·&nbsp;&nbsp;MIGRACIONES DE SISTEMAS&nbsp;&nbsp;·&nbsp;&nbsp;DESARROLLO A MEDIDA&nbsp;&nbsp;·&nbsp;&nbsp;CONSULTORÍA TÉCNICA&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
          VALOR AGREGADO
     ═══════════════════════════════════════════════════════ -->
     <section class="valor-section" aria-label="Propuesta de valor">
@@ -265,8 +278,10 @@
           </div>
 
           <div class="soluciones__content animate-on-scroll" style="--delay:100ms">
-            <span class="label-mono">SOLUCIONES</span>
-            <h2 id="soluciones-title">Soluciones digitales diseñadas para el crecimiento</h2>
+            <div class="section-head" data-num="01">
+              <span class="label-mono section-head__label">SOLUCIONES</span>
+              <h2 id="soluciones-title" class="section-head__title">Soluciones digitales diseñadas para el crecimiento</h2>
+            </div>
             <p>En SYNATECH SRL, cada proyecto tecnológico nace de una comprensión profunda de su infraestructura. Analizamos sus necesidades técnicas para implementar arquitecturas escalables y eficientes.</p>
             <p>No entregamos simplemente código; construimos sistemas robustos y procesos optimizados que aseguran la competitividad de su empresa en el entorno digital.</p>
             <a href="#contacto" class="btn btn--primary">Consultar proyecto</a>
@@ -282,15 +297,15 @@
     <section id="servicios" class="especialidades-section" aria-labelledby="servicios-title">
       <div class="container">
 
-        <div class="section-header animate-on-scroll">
-          <span class="label-mono">01 — ESPECIALIDADES</span>
-          <h2 id="servicios-title">Servicios especializados</h2>
+        <div class="section-head animate-on-scroll" data-num="02">
+          <span class="label-mono section-head__label">ESPECIALIDADES</span>
+          <h2 id="servicios-title" class="section-head__title">Servicios especializados</h2>
         </div>
 
         <div class="servicios-grid" role="list">
 
           <!-- Transformación Digital -->
-          <article class="servicio-card animate-on-scroll" role="listitem">
+          <article class="servicio-card animate-on-scroll" role="listitem" tabindex="0">
             <div class="servicio-card__icon" aria-hidden="true">
               <!-- Ícono: flechas circulares / transformación -->
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
@@ -303,12 +318,12 @@
               </svg>
             </div>
             <h3 class="servicio-card__title">Transformación Digital</h3>
-            <p class="servicio-card__text">Modernizamos sus procesos operativos mediante la integración de tecnologías emergentes, garantizando una transición fluida hacia modelos de negocio digitales.</p>
+            <div class="servicio-card__collapse"><p class="servicio-card__text">Modernizamos sus procesos operativos mediante la integración de tecnologías emergentes, garantizando una transición fluida hacia modelos de negocio digitales.</p></div>
             <span class="servicio-card__arrow" aria-hidden="true">→</span>
           </article>
 
           <!-- Migraciones de Sistemas -->
-          <article class="servicio-card animate-on-scroll" style="--delay:80ms" role="listitem">
+          <article class="servicio-card animate-on-scroll" style="--delay:80ms" role="listitem" tabindex="0">
             <div class="servicio-card__icon" aria-hidden="true">
               <!-- Ícono: servidores + flecha de migración -->
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
@@ -323,12 +338,12 @@
               </svg>
             </div>
             <h3 class="servicio-card__title">Migraciones de Sistemas</h3>
-            <p class="servicio-card__text">Especialistas en migración segura de datos e infraestructura hacia la nube, minimizando riesgos y asegurando la continuidad total de sus servicios críticos.</p>
+            <div class="servicio-card__collapse"><p class="servicio-card__text">Especialistas en migración segura de datos e infraestructura hacia la nube, minimizando riesgos y asegurando la continuidad total de sus servicios críticos.</p></div>
             <span class="servicio-card__arrow" aria-hidden="true">→</span>
           </article>
 
           <!-- Desarrollo a Medida -->
-          <article class="servicio-card animate-on-scroll" role="listitem">
+          <article class="servicio-card animate-on-scroll" role="listitem" tabindex="0">
             <div class="servicio-card__icon" aria-hidden="true">
               <!-- Ícono: code brackets < /> -->
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
@@ -340,12 +355,12 @@
               </svg>
             </div>
             <h3 class="servicio-card__title">Desarrollo a Medida</h3>
-            <p class="servicio-card__text">Software diseñado exclusivamente según los requerimientos de su empresa, asegurando una integración perfecta con su stack tecnológico existente.</p>
+            <div class="servicio-card__collapse"><p class="servicio-card__text">Software diseñado exclusivamente según los requerimientos de su empresa, asegurando una integración perfecta con su stack tecnológico existente.</p></div>
             <span class="servicio-card__arrow" aria-hidden="true">→</span>
           </article>
 
           <!-- Consultoría Técnica -->
-          <article class="servicio-card animate-on-scroll" style="--delay:80ms" role="listitem">
+          <article class="servicio-card animate-on-scroll" style="--delay:80ms" role="listitem" tabindex="0">
             <div class="servicio-card__icon" aria-hidden="true">
               <!-- Ícono: burbuja de chat / consultoría -->
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
@@ -357,7 +372,7 @@
               </svg>
             </div>
             <h3 class="servicio-card__title">Consultoría Técnica</h3>
-            <p class="servicio-card__text">Asesoramiento experto para la toma de decisiones estratégicas en proyectos de IT, priorizando la eficiencia y la seguridad de la información.</p>
+            <div class="servicio-card__collapse"><p class="servicio-card__text">Asesoramiento experto para la toma de decisiones estratégicas en proyectos de IT, priorizando la eficiencia y la seguridad de la información.</p></div>
             <span class="servicio-card__arrow" aria-hidden="true">→</span>
           </article>
 
@@ -371,9 +386,9 @@
     <section id="trayectoria" class="trayectoria-section" aria-labelledby="trayectoria-title">
       <div class="container">
 
-        <div class="section-header animate-on-scroll">
-          <span class="label-mono">02 — TRAYECTORIA</span>
-          <h2 id="trayectoria-title">Nuestra historia</h2>
+        <div class="section-head animate-on-scroll" data-num="03">
+          <span class="label-mono section-head__label">TRAYECTORIA</span>
+          <h2 id="trayectoria-title" class="section-head__title">Nuestra historia</h2>
         </div>
 
         <div class="timeline animate-on-scroll">
@@ -405,11 +420,13 @@
     <!-- ═══════════════════════════════════════════════════════
          COMPROMISO DE CALIDAD
     ═══════════════════════════════════════════════════════ -->
-    <section class="calidad-section" aria-labelledby="calidad-title">
+    <section id="compromiso" class="calidad-section" aria-labelledby="calidad-title">
       <div class="container">
         <div class="calidad-inner animate-on-scroll">
-          <span class="label-mono">03 — COMPROMISO</span>
-          <h2 id="calidad-title" class="calidad-title">Nuestro compromiso de calidad</h2>
+          <div class="section-head section-head--center" data-num="04">
+            <span class="label-mono section-head__label">COMPROMISO</span>
+            <h2 id="calidad-title" class="section-head__title calidad-title">Nuestro compromiso de calidad</h2>
+          </div>
           <!-- TODO: texto -->
           <p class="calidad-text">Cada línea de código que entregamos refleja nuestro estándar de excelencia. Trabajamos con metodologías probadas, comunicación transparente y un equipo comprometido con el éxito de su proyecto.</p>
           <a href="#contacto" class="btn btn--primary">Consultar proyecto</a>
@@ -423,9 +440,9 @@
     <section id="contacto" class="contacto-section" aria-labelledby="contacto-title">
       <div class="container">
 
-        <div class="section-header animate-on-scroll">
-          <span class="label-mono">04 — CONTACTO</span>
-          <h2 id="contacto-title">Hablemos de tu proyecto</h2>
+        <div class="section-head animate-on-scroll" data-num="05">
+          <span class="label-mono section-head__label">CONTACTO</span>
+          <h2 id="contacto-title" class="section-head__title">Hablemos de su proyecto</h2>
         </div>
 
         <div class="contacto-inner">
@@ -569,14 +586,14 @@
 
               <div class="form-group">
                 <label for="mensaje" class="form-label">
-                  Contanos tu proyecto <span class="required" aria-hidden="true">*</span>
+                  Cuéntenos sobre su proyecto <span class="required" aria-hidden="true">*</span>
                 </label>
                 <textarea id="mensaje"
                           name="mensaje"
                           class="form-input form-textarea"
                           required
                           rows="5"
-                          placeholder="Describí brevemente tu proyecto o consulta…"></textarea>
+                          placeholder="Describa brevemente su proyecto o consulta…"></textarea>
               </div>
 
               <div id="form-status" class="form-status" role="alert" aria-live="polite" hidden></div>
@@ -607,7 +624,7 @@
             <img src="assets/img/logo/logo.png"
                  alt="SYNATECH SRL"
                  class="footer__logo-img"
-                 width="85" height="48"
+                 width="113" height="64"
                  loading="lazy">
           </a>
           <p class="footer__tagline">Transformación digital e innovación tecnológica para empresas argentinas.</p>

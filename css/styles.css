@@ -19,6 +19,7 @@
   --radius: 8px;
   --container: 1200px;
   --section-py: clamp(80px, 10vw, 140px);
+  --header-h: 72px;
 }
 
 /* ── Reset ─────────────────────────────────────────────── */
@@ -49,6 +50,19 @@ a        { color: inherit; text-decoration: none; }
 button   { font-family: inherit; cursor: pointer; border: none; background: none; }
 input, select, textarea { font-family: inherit; font-size: inherit; }
 
+/* ── Textura de grano ──────────────────────────────────── */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  background-repeat: repeat;
+}
+
 /* ── Tipografía ────────────────────────────────────────── */
 h1, h2, h3, h4 {
   letter-spacing: -0.02em;
@@ -57,8 +71,8 @@ h1, h2, h3, h4 {
   color: var(--text);
 }
 
-h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 500; }
-h2 { font-size: clamp(1.75rem, 3.5vw, 2.75rem); }
+h1 { font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 500; }
+h2 { font-size: clamp(2.25rem, 4vw, 3.5rem); }
 h3 { font-size: clamp(1.05rem, 1.8vw, 1.25rem); font-weight: 600; }
 
 p {
@@ -74,6 +88,11 @@ p {
   color: var(--text-muted);
 }
 
+/* Anclas: compensar el header sticky al navegar desde el menú */
+section[id] {
+  scroll-margin-top: calc(var(--header-h) + 24px);
+}
+
 /* ── Layout ────────────────────────────────────────────── */
 .container {
   width: 100%;
@@ -82,13 +101,58 @@ p {
   padding-inline: clamp(1.25rem, 4vw, 3rem);
 }
 
-.section-header {
+/* ── Encabezado de sección (componente único) ─────────────
+   <div class="section-head" data-num="0X">
+     <span class="label-mono section-head__label">0X — NOMBRE</span>
+     <h2 class="section-head__title">…</h2>
+   </div>
+   El número grande se dibuja con ::before a partir de data-num:
+   va en el flujo normal (sin position absolute) para que nunca se
+   superponga con la etiqueta ni se recorte. */
+.section-head {
   margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  text-align: left;
 }
 
-.section-header .label-mono {
+.section-head::before {
+  content: attr(data-num);
+  content: attr(data-num) / ""; /* decorativo: sin texto accesible */
+  display: block;
+  font-family: var(--font-sans);
+  font-size: clamp(4.5rem, 8vw, 7rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line);
+  margin-bottom: 0.75rem;
+  /* compensa el lado izquierdo del glifo para alinear con la etiqueta */
+  margin-left: -0.04em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.section-head__label {
   display: block;
   margin-bottom: 0.75rem;
+}
+
+.section-head__title {
+  margin: 0;
+}
+
+/* Variante centrada (Compromiso, fondo oscuro) */
+.section-head--center {
+  text-align: center;
+}
+
+.section-head--center::before {
+  margin-left: 0;
+  -webkit-text-stroke-color: rgba(242, 237, 228, 0.25);
+}
+
+.section-head--center .section-head__title {
+  margin-inline: auto;
 }
 
 /* ── Botones ───────────────────────────────────────────── */
@@ -153,12 +217,12 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 72px;
+  height: var(--header-h);
   gap: 2rem;
 }
 
 .header__logo img {
-  height: 52px;
+  height: 44px;
   width: auto;
 }
 
@@ -289,7 +353,7 @@ p {
 
 /* ── Hero ──────────────────────────────────────────────── */
 .hero {
-  padding-top: clamp(80px, 12vw, 140px);
+  padding-top: clamp(48px, 7vw, 88px);
   padding-bottom: clamp(60px, 8vw, 100px);
   background-color: var(--bg);
 }
@@ -306,8 +370,10 @@ p {
 }
 
 .hero__title {
+  font-size: clamp(2.5rem, 4.2vw, 3.75rem);
+  line-height: 1.08;
   margin-bottom: 1.25rem;
-  max-width: 20ch;
+  max-width: 18ch;
 }
 
 .hero__description {
@@ -427,6 +493,42 @@ p {
   border-radius: 4px;
 }
 
+/* ── Marquee ───────────────────────────────────────────── */
+.marquee {
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 1.125rem 0;
+  background-color: var(--bg);
+  cursor: default;
+  user-select: none;
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 40s linear infinite;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__text {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  padding-right: 2rem;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 /* ── Valor agregado ────────────────────────────────────── */
 .valor-section {
   padding-block: var(--section-py);
@@ -492,12 +594,7 @@ p {
   aspect-ratio: 4 / 3;
 }
 
-.soluciones__content .label-mono {
-  display: block;
-  margin-bottom: 0.75rem;
-}
-
-.soluciones__content h2 {
+.soluciones__content .section-head {
   margin-bottom: 1.5rem;
 }
 
@@ -553,12 +650,29 @@ p {
   margin: 0;
 }
 
+/* Colapso de texto: oculto por defecto, visible en hover/focus */
+.servicio-card__collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease;
+}
+
+.servicio-card__collapse > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.servicio-card:hover .servicio-card__collapse,
+.servicio-card:focus-within .servicio-card__collapse {
+  grid-template-rows: 1fr;
+}
+
 .servicio-card__text {
   font-size: 0.9375rem;
   color: var(--text-muted);
   max-width: none;
-  flex: 1;
   margin: 0;
+  padding-bottom: 0.125rem;
 }
 
 .servicio-card__arrow {
@@ -566,7 +680,6 @@ p {
   font-size: 1.125rem;
   color: var(--accent);
   transition: transform 0.2s ease;
-  margin-top: 0.25rem;
   align-self: flex-start;
 }
 
@@ -634,10 +747,11 @@ p {
   margin: 0;
 }
 
-/* ── Compromiso de calidad ─────────────────────────────── */
+/* ── Compromiso de calidad (sección invertida) ─────────── */
 .calidad-section {
-  padding-block: var(--section-py);
+  padding-block: clamp(120px, 16vw, 200px);
   text-align: center;
+  background-color: var(--text);
 }
 
 .calidad-inner {
@@ -648,14 +762,13 @@ p {
   align-items: center;
 }
 
-.calidad-inner .label-mono {
-  margin-bottom: 1rem;
+.calidad-inner .section-head {
+  margin-bottom: 1.5rem;
 }
 
 .calidad-title {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  color: var(--text);
-  margin-bottom: 1.5rem;
+  font-size: clamp(2rem, 4.5vw, 3.75rem);
+  color: var(--bg);
   max-width: 20ch;
 }
 
@@ -664,6 +777,21 @@ p {
   margin-bottom: 2.5rem;
   max-width: 60ch;
   text-align: center;
+  color: rgba(242, 237, 228, 0.6);
+}
+
+.calidad-inner .label-mono {
+  color: #8FB3A8;
+}
+
+.calidad-section .btn--primary {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.calidad-section .btn--primary:hover {
+  opacity: 0.88;
+  background-color: var(--bg);
 }
 
 /* ── Contacto ──────────────────────────────────────────── */
@@ -873,7 +1001,8 @@ a.contacto-list__value:hover {
 /* ── Footer ────────────────────────────────────────────── */
 .footer {
   border-top: 1px solid var(--line);
-  padding-block: clamp(2.5rem, 5vw, 4rem);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  padding-bottom: clamp(2rem, 4vw, 3rem);
   background-color: var(--bg);
 }
 
@@ -887,7 +1016,7 @@ a.contacto-list__value:hover {
 }
 
 .footer__brand img {
-  height: 48px;
+  height: 64px;
   width: auto;
   margin-bottom: 0.875rem;
 }
@@ -1080,11 +1209,16 @@ a.contacto-list__value:hover {
     display: none;
   }
 
-  /* Hero: split layout */
+  /* Logo más grande en desktop */
+  .header__logo img {
+    height: 56px;
+  }
+
+  /* Hero: split layout (columna de texto más ancha para que el h1 entre en 2-3 líneas) */
   .hero__inner {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(3rem, 5vw, 6rem);
+    grid-template-columns: 1.2fr 1fr;
+    gap: clamp(2.5rem, 4vw, 4.5rem);
     align-items: center;
     flex-direction: unset;
   }
@@ -1098,6 +1232,11 @@ a.contacto-list__value:hover {
    RESPONSIVE — pequeño 480px
 ═══════════════════════════════════════════════════════════ */
 @media (max-width: 480px) {
+  /* Número de sección más chico en mobile (~4rem) */
+  .section-head::before {
+    font-size: 4rem;
+  }
+
   .hero__actions {
     flex-direction: column;
     align-items: flex-start;
@@ -1112,6 +1251,13 @@ a.contacto-list__value:hover {
 /* ═══════════════════════════════════════════════════════════
    PREFERS REDUCED MOTION
 ═══════════════════════════════════════════════════════════ */
+/* Mobile: colapso siempre expandido */
+@media (max-width: 767px) {
+  .servicio-card__collapse {
+    grid-template-rows: 1fr;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -1126,6 +1272,15 @@ a.contacto-list__value:hover {
   }
 
   .carousel__slide {
+    transition: none;
+  }
+
+  .marquee__track {
+    animation: none;
+  }
+
+  .servicio-card__collapse {
+    grid-template-rows: 1fr; /* siempre visible si no hay animación */
     transition: none;
   }
 }
